@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saveur d'Europe - Alta cocina europea</title>
+    <style>
+        :root {
+            --primary-color: #1d3557;
+            --secondary-color: #e63946;
+            --accent-color: #a8dadc;
+            --text-color: #293241;
+            --light-color: #f1faee;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .logo span {
+            color: var(--secondary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding-top: 4rem;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #c1121f;
+        }
+        
+        section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .about-img {
+            flex: 1;
+        }
+        
+        .about-img img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .menu {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .menu .section-title h2 {
+            color: white;
+        }
+        
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .menu-category {
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.5rem;
+            background-color: transparent;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .menu-category.active {
+            color: white;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .menu-item {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .menu-item-content {
+            padding: 1.5rem;
+        }
+        
+        .menu-item-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .menu-item-content p {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            color: var(--secondary-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .reservation {
+            background-color: var(--light-color);
+        }
+        
+        .reservation-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .contact {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .contact .section-title h2 {
+            color: white;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .contact-item {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .contact-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .contact-item i {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        footer {
+            background-color: #0f2132;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary-color);
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin-left: 1rem;
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        @media (max-width: 768px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Cabecera -->
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">Saveur <span>d'Europe</span></div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Inicio</a></li>
+                        <li><a href="#about">Nosotros</a></li>
+                        <li><a href="#menu">Menú</a></li>
+                        <li><a href="#reservation">Reservaciones</a></li>
+                        <li><a href="#contact">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección Hero -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>La Exquisita Tradición Culinaria Europea</h1>
+            <p>Descubre los sabores auténticos de la cocina europea de la mano de nuestros chefs con experiencia internacional</p>
+            <a href="#reservation" class="btn">Reservar Mesa</a>
+        </div>
+    </section>
+
+    <!-- Sección Nosotros -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestra Historia</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-img">
+                    <img src="/api/placeholder/600/400" alt="Nuestro restaurante">
+                </div>
+                <div class="about-text">
+                    <h3>Una Pasión por la Gastronomía Europea</h3>
+                    <p>En Saveur d'Europe, nos enorgullece ofrecer una experiencia culinaria auténtica que celebra la rica tradición gastronómica europea. Nuestro viaje comenzó hace más de una década cuando nuestro chef fundador decidió combinar las técnicas culinarias francesas con los sabores mediterráneos e influencias de toda Europa.</p>
+                    <p>Cada plato es preparado con ingredientes frescos y de primera calidad, respetando las recetas tradicionales pero añadiendo un toque contemporáneo que sorprende y deleita a nuestros comensales. Nuestro compromiso con la excelencia nos ha convertido en un referente de la alta gastronomía europea en la ciudad.</p>
+                    <a href="#menu" class="btn">Explorar Menú</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Menú -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestro Menú</h2>
+            </div>
+            <div class="menu-categories">
+                <button class="menu-category active" data-category="all">Todos</button>
+                <button class="menu-category" data-category="entradas">Entradas</button>
+                <button class="menu-category" data-category="principales">Platos Principales</button>
+                <button class="menu-category" data-category="postres">Postres</button>
+                <button class="menu-category" data-category="bebidas">Bebidas</button>
+            </div>
+            <div class="menu-items">
+                <!-- Entradas -->
+                <div class="menu-item" data-category="entradas">
+                    <img src="/api/placeholder/400/300" alt="Carpaccio">
+                    <div class="menu-item-content">
+                        <h3>Carpaccio de Ternera</h3>
+                        <p>Finas láminas de ternera con rúcula, parmesano y aliño balsámico</p>
+                        <span class="price">€12.50</span>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="entradas">
+                    <img src="/api/placeholder/400/300" alt="Escargots">
+                    <div class="menu-item-content">
+                        <h3>Escargots à la Bourguignonne</h3>
+                        <p>Caracoles preparados con mantequilla de hierbas y ajo</p>
+                        <span class="price">€14.00</span>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="entradas">
+                    <img src="/api/placeholder/400/300" alt="Tabla de quesos">
+                    <div class="menu-item-content">
+                        <h3>Tabla de Quesos Europeos</h3>
+                        <p>Selección de quesos artesanales acompañados de nueces y mermelada</p>
+                        <span class="price">€16.50</span>
+                    </div>
+                </div>
+                
+                <!-- Platos Principales -->
+                <div class="menu-item" data-category="principales">
+                    <img src="/api/placeholder/400/300" alt="Coq au Vin">
+                    <div class="menu-item-content">
+                        <h3>Coq au Vin</h3>
+                        <p>Guiso tradicional francés de pollo cocinado en vino tinto con champiñones y cebolla</p>
+                        <span class="price">€22.00</span>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="principales">
+                    <img src="/api/placeholder/400/300" alt="Risotto">
+                    <div class="menu-item-content">
+                        <h3>Risotto ai Funghi Porcini</h3>
+                        <p>Cremoso risotto italiano con setas porcini y parmesano</p>
+                        <span class="price">€19.50</span>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="principales">
+                    <img src="/api/placeholder/400/300" alt="Schnitzel">
+                    <div class="menu-item-content">
+                        <h3>Wiener Schnitzel</h3>
+                        <p>Escalope de ternera empanado al estilo vienés con ensalada de patata</p>
+                        <span class="price">€24.00</span>
+                    </div>
+                </div>
+                
+                <!-- Postres -->
+                <div class="menu-item" data-category="postres">
+                    <img src="/api/placeholder/400/300" alt="Crème Brûlée">
+                    <div class="menu-item-content">
+                        <h3>Crème Brûlée</h3>
+                        <p>Clásico postre francés de crema con costra de azúcar caramelizada</p>
+                        <span class="price">€8.50</span>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="postres">
+                    <img src="/api/placeholder/400/300" alt="Tiramisu">
+                    <div class="menu-item-content">
+                        <h3>Tiramisú</h3>
+                        <p>Postre italiano de café con capas de mascarpone y bizcochos</p>
+                        <span class="price">€9.00</span>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="postres">
+                    <img src="/api/placeholder/400/300" alt="Strudel">
+                    <div class="menu-item-content">
+                        <h3>Apfelstrudel</h3>
+                        <p>Pastel de manzana austriaco con masa filo, pasas y canela</p>
+                        <span class="price">€8.00</span>
+                    </div>
+                </div>
+                
+                <!-- Bebidas -->
+                <div class="menu-item" data-category="bebidas">
+                    <img src="/api/placeholder/400/300" alt="Vino">
+                    <div class="menu-item-content">
+                        <h3>Selección de Vinos Europeos</h3>
+                        <p>Amplia carta de vinos de las mejores regiones vinícolas de Europa</p>
+                        <span class="price">Desde €6.00</span>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="bebidas">
+                    <img src="/api/placeholder/400/300" alt="Cervezas">
+                    <div class="menu-item-content">
+                        <h3>Cervezas Artesanales</h3>
+                        <p>Variedad de cervezas belgas, alemanas y checas</p>
+                        <span class="price">Desde €5.50</span>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="bebidas">
+                    <img src="/api/placeholder/400/300" alt="Café">
+                    <div class="menu-item-content">
+                        <h3>Café Europeo</h3>
+                        <p>Espresso, cappuccino, café vienés y más especialidades</p>
+                        <span class="price">Desde €3.50</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Reservaciones -->
+    <section id="reservation" class="reservation">
+        <div class="container">
+            <div class="section-title">
+                <h2>Reserva Tu Mesa</h2>
+            </div>
+            <div class="reservation-form">
+                <form id="booking-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nombre Completo</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Teléfono</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Fecha</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="time">Hora</label>
+                            <input type="time" id="time" name="time" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="guests">Número de Personas</label>
+                            <select id="guests" name="guests" required>
+                                <option value="" disabled selected>Selecciona</option>
+                                <option value="1">1 persona</option>
+                                <option value="2">2 personas</option>
+                                <option value="3">3 personas</option>
+                                <option value="4">4 personas</option>
+                                <option value="5">5 personas</option>
+                                <option value="6">6 personas</option>
+                                <option value="more">Más de 6 personas</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="requests">Solicitudes Especiales</label>
+                        <textarea id="requests" name="requests" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Confirmar Reserva</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Contacto -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contacto</h2>
+            </div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Dirección</h3>
+                    <p>Calle Gourmet 123, Ciudad</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <h3>Teléfono</h3>
+                    <p>+593 923 456 789</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p>info@saveurdeurope.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <h3>Horario</h3>
+                    <p>Lun-Vie: 12:00 - 23:00<br>Sáb-Dom: 13:00 - 00:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pie de página -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Saveur <span>d'Europe</span></div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-tripadvisor"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Saveur d'Europe. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script para manejar las categorías del menú
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuCategories = document.querySelectorAll('.menu-category');
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            menuCategories.forEach(category => {
+                category.addEventListener('click', function() {
+                    // Actualizar categoría activa
+                    menuCategories.forEach(cat => cat.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const selectedCategory = this.getAttribute('data-category');
+                    
+                    // Filtrar elementos del menú
+                    menuItems.forEach(item => {
+                        if (selectedCategory === 'all' || item.getAttribute('data-category') === selectedCategory) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Manejar envío del formulario de reserva
+            const bookingForm = document.getElementById('booking-form');
+            if (bookingForm) {
+                bookingForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('¡Gracias por su reserva! Nos pondremos en contacto con usted para confirmarla.');
+                    this.reset();
+                });
+            }
+            
+            // Navegación suave
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
